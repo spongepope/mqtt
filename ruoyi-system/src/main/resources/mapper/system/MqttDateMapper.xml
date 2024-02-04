@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.MqttDateMapper">
+
+    <insert id="insert" parameterType="mqttDate">
+        insert into mqttDate (
+        <if test="mqtt_time != null and mqtt_time != '' ">mqtt_time,</if>
+        <if test="mqtt_baowen1 != null and mqtt_baowen1 != '' ">mqtt_baowen1,</if>
+        <if test="mqtt_baowen2 != null and mqtt_baowen2 != '' ">mqtt_baowen2</if>
+        )values(
+        <if test="mqtt_time != null and mqtt_time != ''">#{mqtt_time},</if>
+        <if test="mqtt_baowen1 != null and mqtt_baowen1 != ''">#{mqtt_baowen1},</if>
+        <if test="mqtt_baowen2 != null and mqtt_baowen2 != ''">#{mqtt_baowen2}</if>
+        )
+    </insert>
+</mapper>
