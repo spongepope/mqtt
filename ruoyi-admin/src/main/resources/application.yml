@@ -49,6 +49,11 @@ user:
 
 # Spring配置
 spring:
+  influx:
+    url: http:// 192.168.0.107:8086
+    user: chenl
+    password: chenliang123
+    database: sensors_data
   # 资源信息
   messages:
     # 国际化资源文件路径
@@ -93,8 +98,8 @@ spring:
   mqtt:
       username: chenliang # 用户名
       password: chenliang123 # 密码
-      hostUrl: tcp://broker.emqx.io:1883 # tcp://ip:端口
-      clientId: clientId # 客户端id
+      hostUrl: tcp://broker-cn.emqx.io:1883 # tcp://ip:端口
+      clientId: mqttId # 客户端id
       defaultTopic: topic # 订阅主题
       timeout: 100 # 超时时间 （单位：秒）
       keepalive: 60 # 心跳 （单位：秒）
@@ -140,3 +145,4 @@ xss:
   excludes: /system/notice
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
+

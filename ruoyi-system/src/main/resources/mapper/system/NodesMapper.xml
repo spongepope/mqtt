@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.NodesMapper">
+    
+    <resultMap type="Nodes" id="NodesResult">
+        <result property="nodeId"    column="node_id"    />
+        <result property="nodeName"    column="node_name"    />
+        <result property="nodeStatus"    column="node_status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectNodesVo">
+        select node_id, node_name, node_status, create_time, update_time from nodes
+    </sql>
+
+    <select id="selectNodesList" parameterType="Nodes" resultMap="NodesResult">
+        <include refid="selectNodesVo"/>
+        <where>  
+            <if test="nodeName != null  and nodeName != ''"> and node_name like concat('%', #{nodeName}, '%')</if>
+            <if test="nodeStatus != null "> and node_status = #{nodeStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectNodesByNodeId" parameterType="Long" resultMap="NodesResult">
+        <include refid="selectNodesVo"/>
+        where node_id = #{nodeId}
+    </select>
+        
+    <insert id="insertNodes" parameterType="Nodes" useGeneratedKeys="true" keyProperty="nodeId">
+        insert into nodes
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="nodeName != null">node_name,</if>
+            <if test="nodeStatus != null">node_status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="nodeName != null">#{nodeName},</if>
+            <if test="nodeStatus != null">#{nodeStatus},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNodes" parameterType="Nodes">
+        update nodes
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="nodeName != null">node_name = #{nodeName},</if>
+            <if test="nodeStatus != null">node_status = #{nodeStatus},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where node_id = #{nodeId}
+    </update>
+
+    <delete id="deleteNodesByNodeId" parameterType="Long">
+        delete from nodes where node_id = #{nodeId}
+    </delete>
+
+    <delete id="deleteNodesByNodeIds" parameterType="String">
+        delete from nodes where node_id in 
+        <foreach item="nodeId" collection="array" open="(" separator="," close=")">
+            #{nodeId}
+        </foreach>
+    </delete>
+</mapper>

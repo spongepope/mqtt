@@ -46,6 +46,7 @@ public class PushCallback implements MqttCallback {
         logger.info("接收消息主题 : " + topic);
         logger.info("接收消息Qos : " + mqttMessage.getQos());
         logger.info("接收消息内容 : " + new String(mqttMessage.getPayload()));
+        
         String rfid = new String(mqttMessage.getPayload());
         if (rfid.length() == 6) {
             mqttDateService.insert(rfid);

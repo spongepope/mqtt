@@ -112,11 +112,10 @@ public class MqttConfig {
     @Bean
     public MqttPushClient getMqttPushClient() {
         if(enabled == true){
-            String mqtt_topic[] = StringUtils.split(defaultTopic, ",");
+
             mqttPushClient.connect(hostUrl, clientId, username, password, timeout, keepalive);//连接
-            for(int i=0; i<mqtt_topic.length; i++){
-                mqttPushClient.subscribe(mqtt_topic[i], 0);//订阅主题
-            }
+            mqttPushClient.subscribe("test",0);
+            mqttPushClient.subscribe("w",0);
         }
         return mqttPushClient;
     }
