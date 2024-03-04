@@ -2,10 +2,7 @@ package com.ruoyi.system.mqtt;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.system.service.MqttDateService;
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +13,7 @@ import javax.annotation.Resource;
 @Component
 public class PushCallback implements MqttCallback {
     private static final Logger logger = LoggerFactory.getLogger(MqttPushClient.class);
-
+    @Autowired
     public static PushCallback pushCallback;
 
 
@@ -43,6 +40,7 @@ public class PushCallback implements MqttCallback {
     @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
         // subscribe后得到的消息会执行到这里面
+
         logger.info("接收消息主题 : " + topic);
         logger.info("接收消息Qos : " + mqttMessage.getQos());
         logger.info("接收消息内容 : " + new String(mqttMessage.getPayload()));
@@ -71,4 +69,12 @@ public class PushCallback implements MqttCallback {
         return jsonObject.toString();
     }
 
+    public boolean isKeepAlive(){
+        MqttConnectOptions options = new MqttConnectOptions();
+        int keepAliveInterval = options.getKeepAliveInterval();
+        if(keepAliveInterval < 60){
+            return true;
+        }
+        return false;
+    }
 }

@@ -8,6 +8,8 @@ import com.ruoyi.system.mapper.NodesMapper;
 import com.ruoyi.system.domain.Nodes;
 import com.ruoyi.system.service.INodesService;
 
+import static com.ruoyi.system.mqtt.PushCallback.pushCallback;
+
 /**
  * 【请填写功能名称】Service业务层处理
  * 
@@ -54,6 +56,10 @@ public class NodesServiceImpl implements INodesService
     public int insertNodes(Nodes nodes)
     {
         nodes.setCreateTime(DateUtils.getNowDate());
+        if(pushCallback.isKeepAlive() == true){
+            nodes.setNodeStatus((long)0);//正常使用
+        }
+            nodes.setNodeStatus((long)1);//停用
         return nodesMapper.insertNodes(nodes);
     }
 

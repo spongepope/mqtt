@@ -110,12 +110,15 @@ public class MqttConfig {
     }
 
     @Bean
+    //订阅mqtt服务
     public MqttPushClient getMqttPushClient() {
         if(enabled == true){
 
             mqttPushClient.connect(hostUrl, clientId, username, password, timeout, keepalive);//连接
             mqttPushClient.subscribe("test",0);
             mqttPushClient.subscribe("w",0);
+            mqttPushClient.subscribe("test",1);
+
         }
         return mqttPushClient;
     }
